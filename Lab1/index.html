@@ -21,7 +21,7 @@
         console.log("opposite angle - якщо це кут навпроти катета");
         console.log("angle - якщо це просто гострий кут (коли маєте гіпотенузу)");
         console.log("При вказанні величин кутів використовувати градуси");
-        console.log("Приклад: щоб знайти все для катета 4 і гіпотенузи 8, введіть: triangle(4, 'leg', 8, 'hypotenuse')");
+        console.log("Приклад: щоб знайти все для катета 4 і гіпотенузи 8, введіть: triangle(4, ''leg'', 8, ''hypotenuse'');");
         
         const LEG = "leg";
         const HYPOTENUSE = "hypotenuse";
@@ -30,11 +30,7 @@
         const ANGLE = "angle";
         
         function triangle(val1, type1, val2, type2) {
-
-            const args = {};
-            args[type1] = val1;
-            args[type2] = val2;
-        
+            
             const validTypes = [LEG, HYPOTENUSE, ADJ_ANGLE, OPP_ANGLE, ANGLE];
             if (!validTypes.includes(type1) || !validTypes.includes(type2)) {
                 console.log("Помилка: Невірний тип аргументу. Перечитайте інструкцію.");
@@ -42,69 +38,72 @@
             }
         
             if (val1 <= 0 || val2 <= 0) {
-                console.log("ПОмилка: Нуль або негативне значення");
+                console.log("Помилка: Нуль або негативне значення");
                 return "failed";
             }
         
             let a, b, c, alpha, beta;
         
-            if (args[LEG] && Object.keys(args).filter(k => k === LEG).length === 2) { 
-                
-                if (type1 === LEG && type2 === LEG) {
-                     a = val1;
-                     b = val2;
-                     c = Math.sqrt(a*a + b*b);
-                     alpha = Math.atan(a/b) * (180 / Math.PI);
-                     beta = 90 - alpha;
-                }
+            if (type1 === LEG && type2 === LEG) {
+                a = val1;
+                b = val2;
+                c = Math.sqrt(a*a + b*b);
+                alpha = Math.atan(a/b) * (180 / Math.PI);
+                beta = 90 - alpha;
             } 
-            else if (args[LEG] && args[HYPOTENUSE]) {
-                a = args[LEG];
-                c = args[HYPOTENUSE];
-                if (a >= c) { 
-                    console.log("Помилка: 'Катет не може бути більшим за гіпотенузу");
+            else {
+                const args = {};
+                args[type1] = val1;
+                args[type2] = val2;
+
+                if (args[LEG] && args[HYPOTENUSE]) {
+                    a = args[LEG];
+                    c = args[HYPOTENUSE];
+                    if (a >= c) {
+                        console.log("Помилка: Катет не може бути більшим за гіпотенузу");
+                        return "failed";
+                    }
+                    b = Math.sqrt(c*c - a*a);
+                    alpha = Math.asin(a/c) * (180 / Math.PI);
+                    beta = 90 - alpha;
+                }
+                else if (args[LEG] && args[OPP_ANGLE]) {
+                    a = args[LEG];
+                    alpha = args[OPP_ANGLE];
+                    if (alpha >= 90) {
+                         console.log("Кут має бути гострим");
+                         return "failed";
+                    }
+                    c = a / Math.sin(alpha * Math.PI / 180);
+                    b = Math.sqrt(c*c - a*a);
+                    beta = 90 - alpha;
+                }
+                else if (args[LEG] && args[ADJ_ANGLE]) {
+                    a = args[LEG];
+                    beta = args[ADJ_ANGLE];
+                    if (beta >= 90) {
+                         console.log("Кут має бути гострим");
+                         return "failed";
+                    }
+                    alpha = 90 - beta;
+                    c = a / Math.cos(beta * Math.PI / 180);
+                    b = Math.sqrt(c*c - a*a);
+                }
+                else if (args[HYPOTENUSE] && args[ANGLE]) {
+                    c = args[HYPOTENUSE];
+                    alpha = args[ANGLE]; 
+                     if (alpha >= 90) {
+                         console.log("Кут має бути гострим");
+                         return "failed";
+                    }
+                    beta = 90 - alpha;
+                    a = c * Math.sin(alpha * Math.PI / 180);
+                    b = c * Math.cos(alpha * Math.PI / 180);
+                }
+                else {
+                    console.log("Помилка: Несумісна комбінація типів аргументів.");
                     return "failed";
                 }
-                b = Math.sqrt(c*c - a*a);
-                alpha = Math.asin(a/c) * (180 / Math.PI); // Кут навпроти a
-                beta = 90 - alpha;
-            }
-            else if (args[LEG] && args[OPP_ANGLE]) {
-                a = args[LEG];
-                alpha = args[OPP_ANGLE];
-                if (alpha >= 90) { // Гострий кут
-                     console.log("Кут має бути гострим");
-                     return "failed";
-                }
-                c = a / Math.sin(alpha * Math.PI / 180);
-                b = Math.sqrt(c*c - a*a);
-                beta = 90 - alpha;
-            }
-            else if (args[LEG] && args[ADJ_ANGLE]) {
-                a = args[LEG]; // Катет a
-                beta = args[ADJ_ANGLE]; // Прилеглий кут до a - beta
-                if (beta >= 90) {
-                     console.log("Кут має бути гострим");
-                     return "failed";
-                }
-                alpha = 90 - beta;
-                c = a / Math.cos(beta * Math.PI / 180);
-                b = Math.sqrt(c*c - a*a);
-            }
-            else if (args[HYPOTENUSE] && args[ANGLE]) {
-                c = args[HYPOTENUSE];
-                alpha = args[ANGLE]; 
-                 if (alpha >= 90) {
-                     console.log("Кут має бути гострим");
-                     return "failed";
-                }
-                beta = 90 - alpha;
-                a = c * Math.sin(alpha * Math.PI / 180);
-                b = c * Math.cos(alpha * Math.PI / 180);
-            }
-            else {
-                console.log("Помилка: Несумісна комбінація типів аргументів.");
-                return "failed";
             }
         
             console.log(`a = ${a}`);
