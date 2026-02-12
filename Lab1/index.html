@@ -21,7 +21,7 @@
         console.log("opposite angle - якщо це кут навпроти катета");
         console.log("angle - якщо це просто гострий кут (коли маєте гіпотенузу)");
         console.log("При вказанні величин кутів використовувати градуси");
-        console.log("Приклад: щоб знайти все для катета 4 і гіпотенузи 8, введіть: triangle(4, 'leg', 8, 'hypotenuse')");
+        console.log("Приклад: щоб знайти все для катета 4 і гіпотенузи 8, введіть: triangle(4, ''leg'', 8, ''hypotenuse'')");
         
         const LEG = "leg";
         const HYPOTENUSE = "hypotenuse";
@@ -106,6 +106,12 @@
                 }
             }
         
+            a = +a.toFixed(3);
+            b = +b.toFixed(3);
+            c = +c.toFixed(3);
+            alpha = +alpha.toFixed(3);
+            beta = +beta.toFixed(3);
+
             console.log(`a = ${a}`);
             console.log(`b = ${b}`);
             console.log(`c = ${c}`);
