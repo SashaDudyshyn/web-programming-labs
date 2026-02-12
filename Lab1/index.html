@@ -71,7 +71,7 @@
                     a = args[LEG];
                     alpha = args[OPP_ANGLE];
                     if (alpha >= 90) {
-                         console.log("Кут має бути гострим");
+                         console.log("Помилка: Кут має бути гострим");
                          return "failed";
                     }
                     c = a / Math.sin(alpha * Math.PI / 180);
@@ -82,7 +82,7 @@
                     a = args[LEG];
                     beta = args[ADJ_ANGLE];
                     if (beta >= 90) {
-                         console.log("Кут має бути гострим");
+                         console.log("Помилка: Кут має бути гострим");
                          return "failed";
                     }
                     alpha = 90 - beta;
