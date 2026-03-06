@@ -13,7 +13,7 @@
         car1.color = "red";
         car1.maxSpeed = 220;
         car1.driver = new Object();
-        car1.driver.name = "Dudyshyn";
+        car1.driver.name = "Oleksandra Dudyshyn";
         car1.driver.category = "C";
         car1.driver["personal limitations"] = "No driving at night";
         car1.tuning = true;
@@ -23,7 +23,7 @@
             color: "blue",
             maxSpeed: 180,
             driver: {
-                name: "Dudyshyn",
+                name: "Oleksandra Dudyshyn",
                 category: "B",
                 "personal limitations": null
             },
@@ -67,10 +67,10 @@
         };
 
         let truck1 = new Truck("white", 5000, 80, "Volvo", "FH16");
-        truck1.AssignDriver("Олександр", true, 10);
+        truck1.AssignDriver("Oleksandra Dudyshyn", true, 10);
         
         let truck2 = new Truck("black", 6000, 70, "MAN", "TGX");
-        truck2.AssignDriver("Михайло", false, 3);
+        truck2.AssignDriver("Oleksandra Dudyshyn", false, 3);
 
         truck1.trip();
         truck2.trip();
