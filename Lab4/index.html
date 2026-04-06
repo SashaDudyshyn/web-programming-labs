@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторна робота №4</title>
+</head>
+<body>
+    <h1>Лабораторна робота №4</h1>
+    <p>Відкрийте консоль браузера (f12) для перегляду статистики сортування.</p>
+
+    <script>
+        const sortlib = {
+            pre(arr) {
+                let c = [], u = 0;
+                for(let i = 0; i < arr.length; i++) {
+                    if(arr[i] === undefined) u++;
+                    else c.push(arr[i]);
+                }
+                if(u > 0) console.log("Знайдено undefined елементів: " + u);
+                return { c, u };
+            },
+            
+            post(c, u) {
+                let r = [...c];
+                for(let i = 0; i < u; i++) r.push(undefined);
+                return r;
+            },
+
+            bubble(arr, asc = true) {
+                let {c, u} = this.pre(arr);
+                let comp = 0, swap = 0;
+                for(let i = 0; i < c.length - 1; i++) {
+                    for(let j = 0; j < c.length - i - 1; j++) {
+                        comp++;
+                        if(asc ? c[j] > c[j+1] : c[j] < c[j+1]) {
+                            let t = c[j]; c[j] = c[j+1]; c[j+1] = t;
+                            swap++;
+                        }
+                    }
+                }
+                console.log(`Обміну: порівнянь - ${comp}, обмінів - ${swap}`);
+                return this.post(c, u);
+            },
+
+            selection(arr, asc = true) {
+                let {c, u} = this.pre(arr);
+                let comp = 0, swap = 0;
+                for(let i = 0; i < c.length - 1; i++) {
+                    let min = i;
+                    for(let j = i + 1; j < c.length; j++) {
+                        comp++;
+                        if(asc ? c[j] < c[min] : c[j] > c[min]) min = j;
+                    }
+                    if(min !== i) {
+                        let t = c[i]; c[i] = c[min]; c[min] = t;
+                        swap++;
+                    }
+                }
+                console.log(`Мінімальних елементів: порівнянь - ${comp}, обмінів - ${swap}`);
+                return this.post(c, u);
+            },
+
+            insertion(arr, asc = true) {
+                let {c, u} = this.pre(arr);
+                let comp = 0, move = 0;
+                for(let i = 1; i < c.length; i++) {
+                    let k = c[i];
+                    let j = i - 1;
+                    while(j >= 0) {
+                        comp++;
+                        if(asc ? c[j] > k : c[j] < k) {
+                            c[j+1] = c[j];
+                            move++;
+                            j--;
+                        } else break;
+                    }
+                    c[j+1] = k;
+                    move++;
+                }
+                console.log(`Вставок: порівнянь - ${comp}, переміщень - ${move}`);
+                return this.post(c, u);
+            },
+
+            shell(arr, asc = true) {
+                let {c, u} = this.pre(arr);
+                let comp = 0, move = 0;
+                let n = c.length;
+                for(let gap = Math.floor(n/2); gap > 0; gap = Math.floor(gap/2)) {
+                    for(let i = gap; i < n; i += 1) {
+                        let temp = c[i];
+                        let j;
+                        for(j = i; j >= gap; j -= gap) {
+                            comp++;
+                            if(asc ? c[j - gap] > temp : c[j - gap] < temp) {
+                                c[j] = c[j - gap];
+                                move++;
+                            } else break;
+                        }
+                        c[j] = temp;
+                        move++;
+                    }
+                }
+                console.log(`Шелла: порівнянь - ${comp}, переміщень - ${move}`);
+                return this.post(c, u);
+            },
+
+            quick(arr, asc = true) {
+                let {c, u} = this.pre(arr);
+                let comp = 0, swap = 0;
+                
+                function qs(a, low, high) {
+                    if(low < high) {
+                        let pi = partition(a, low, high);
+                        qs(a, low, pi);
+                        qs(a, pi + 1, high);
+                    }
+                }
+                
+                function partition(a, low, high) {
+                    let pivot = a[Math.floor((low + high) / 2)];
+                    let i = low - 1;
+                    let j = high + 1;
+                    while(true) {
+                        do { i++; comp++; } while (asc ? a[i] < pivot : a[i] > pivot);
+                        do { j--; comp++; } while (asc ? a[j] > pivot : a[j] < pivot);
+                        if (i >= j) return j;
+                        let t = a[i]; a[i] = a[j]; a[j] = t;
+                        swap++;
+                    }
+                }
+                
+                if(c.length > 0) qs(c, 0, c.length - 1);
+                console.log(`Хоара: порівнянь - ${comp}, обмінів - ${swap}`);
+                return this.post(c, u);
+            }
+        };
+
+        let denseArr = [];
+        for(let i = 0; i < 100; i++) denseArr.push(Math.floor(Math.random() * 1000));
+
+        let sparseArr = [];
+        for(let i = 0; i < 100; i++) {
+            if(i % 10 === 0) sparseArr[i] = undefined;
+            else sparseArr[i] = Math.floor(Math.random() * 1000);
+        }
+
+        console.log("Тестування нерозрідженого масиву (100 елементів, за зростанням)");
+        sortlib.bubble([...denseArr], true);
+        sortlib.selection([...denseArr], true);
+        sortlib.insertion([...denseArr], true);
+        sortlib.shell([...denseArr], true);
+        sortlib.quick([...denseArr], true);
+
+        console.log("Тестування розрідженого масиву (100 елементів, за спаданням)");
+        sortlib.bubble([...sparseArr], false);
+        sortlib.selection([...sparseArr], false);
+        sortlib.insertion([...sparseArr], false);
+        sortlib.shell([...sparseArr], false);
+        sortlib.quick([...sparseArr], false);
+    </script>
+</body>
+</html>
