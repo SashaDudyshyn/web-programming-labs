@@ -78,7 +78,10 @@
         let currentMaxTime = 0;
         let currentTime = 0;
         let currentSize = 0;
-        let currentSpread = 0;
+        let maxJumpDistance = 0;
+        
+        let lastX = null;
+        let lastY = null;
 
         function checkForm() {
             if (diffSelect.value !== "" && colorSelect.value !== "") {
@@ -99,17 +102,17 @@
             
             const diff = diffSelect.value;
             if (diff === 'lazy') {
-                currentMaxTime = 8;
-                currentSize = 100;
-                currentSpread = 0.3;
+                currentMaxTime = 6;
+                currentSize = 70;
+                maxJumpDistance = 500; 
             } else if (diff === 'normal') {
-                currentMaxTime = 5;
-                currentSize = 80;
-                currentSpread = 0.6;
+                currentMaxTime = 4;
+                currentSize = 60;
+                maxJumpDistance = 1000; 
             } else if (diff === 'hard') {
                 currentMaxTime = 2;
-                currentSize = 60;
-                currentSpread = 0.9;
+                currentSize = 50;
+                maxJumpDistance = 2000; 
             }
             
             box.style.width = currentSize + 'px';
@@ -118,6 +121,9 @@
             isPlaying = true;
             score = 0;
             scoreDisplay.textContent = 'score: ' + score;
+            
+            lastX = window.innerWidth / 2;
+            lastY = window.innerHeight / 2;
             
             spawnBox();
         });
@@ -129,17 +135,27 @@
             currentTime = currentMaxTime;
             timeDisplay.textContent = 'time left for click: ' + currentTime;
             
-            const safeAreaWidth = window.innerWidth * currentSpread;
-            const safeAreaHeight = (window.innerHeight - 150) * currentSpread;
+            const safeAreaWidth = window.innerWidth - currentSize;
+            const safeAreaHeight = window.innerHeight - 150 - currentSize;
+            const startYOffset = 150;
+
+            let newX, newY;
+            let distance;
+            let attempts = 0;
+
+            do {
+                newX = Math.random() * safeAreaWidth;
+                newY = startYOffset + Math.random() * safeAreaHeight;
+                
+                distance = Math.sqrt(Math.pow(newX - lastX, 2) + Math.pow(newY - lastY, 2));
+                attempts++;
+            } while ((distance > maxJumpDistance || distance < 50) && attempts < 50);
+
+            lastX = newX;
+            lastY = newY;
             
-            const minX = (window.innerWidth - safeAreaWidth) / 2;
-            const minY = 150 + ((window.innerHeight - 150) - safeAreaHeight) / 2;
-            
-            const randomX = minX + Math.random() * (safeAreaWidth - currentSize);
-            const randomY = minY + Math.random() * (safeAreaHeight - currentSize);
-            
-            box.style.left = randomX + 'px';
-            box.style.top = randomY + 'px';
+            box.style.left = newX + 'px';
+            box.style.top = newY + 'px';
             
             timer = setInterval(function() {
                 currentTime--;
