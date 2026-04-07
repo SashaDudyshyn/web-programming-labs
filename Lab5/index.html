@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Pixel Hunt</title>
+    <style>
+        body {
+            font-family: serif;
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            text-align: center;
+        }
+        #controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        #gameArea {
+            display: none;
+            font-family: serif;
+        }
+        #box {
+            position: absolute;
+            display: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pixel Hunt</h1>
+    
+    <div id="controls">
+        <label>Choose difficulty:</label>
+        <select id="diff">
+            <option value="">--Please choose an option--</option>
+            <option value="lazy">Lazy</option>
+            <option value="normal">Normal</option>
+            <option value="hard">Catch me if you can</option>
+        </select>
+        
+        <label>Choose color:</label>
+        <select id="color">
+            <option value="">--Please choose an option--</option>
+            <option value="red">Red</option>
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+        </select>
+        
+        <button id="startBtn" disabled>Start</button>
+    </div>
+
+    <div id="gameArea">
+        <p id="scoreDisplay">score: 0</p>
+        <p id="timeDisplay">time left for click: 0</p>
+    </div>
+
+    <div id="box"></div>
+
+    <script>
+        const diffSelect = document.getElementById('diff');
+        const colorSelect = document.getElementById('color');
+        const startBtn = document.getElementById('startBtn');
+        const controls = document.getElementById('controls');
+        const gameArea = document.getElementById('gameArea');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const timeDisplay = document.getElementById('timeDisplay');
+        const box = document.getElementById('box');
+
+        let score = 0;
+        let timer = null;
+        let isPlaying = false;
+        let currentMaxTime = 0;
+        let currentTime = 0;
+        let currentSize = 0;
+        let currentSpread = 0;
+
+        function checkForm() {
+            if (diffSelect.value !== "" && colorSelect.value !== "") {
+                startBtn.disabled = false;
+            } else {
+                startBtn.disabled = true;
+            }
+        }
+
+        diffSelect.addEventListener('change', checkForm);
+        colorSelect.addEventListener('change', checkForm);
+
+        startBtn.addEventListener('click', function() {
+            controls.style.display = 'none';
+            gameArea.style.display = 'block';
+            box.style.display = 'block';
+            box.style.backgroundColor = colorSelect.value;
+            
+            const diff = diffSelect.value;
+            if (diff === 'lazy') {
+                currentMaxTime = 5;
+                currentSize = 80;
+                currentSpread = 0.3;
+            } else if (diff === 'normal') {
+                currentMaxTime = 3;
+                currentSize = 60;
+                currentSpread = 0.6;
+            } else if (diff === 'hard') {
+                currentMaxTime = 1;
+                currentSize = 40;
+                currentSpread = 0.9;
+            }
+            
+            box.style.width = currentSize + 'px';
+            box.style.height = currentSize + 'px';
+            
+            isPlaying = true;
+            score = 0;
+            scoreDisplay.textContent = 'score: ' + score;
+            
+            spawnBox();
+        });
+
+        function spawnBox() {
+            if (!isPlaying) return;
+            
+            clearInterval(timer);
+            currentTime = currentMaxTime;
+            timeDisplay.textContent = 'time left for click: ' + currentTime;
+            
+            const safeAreaWidth = window.innerWidth * currentSpread;
+            const safeAreaHeight = (window.innerHeight - 150) * currentSpread;
+            
+            const minX = (window.innerWidth - safeAreaWidth) / 2;
+            const minY = 150 + ((window.innerHeight - 150) - safeAreaHeight) / 2;
+            
+            const randomX = minX + Math.random() * (safeAreaWidth - currentSize);
+            const randomY = minY + Math.random() * (safeAreaHeight - currentSize);
+            
+            box.style.left = randomX + 'px';
+            box.style.top = randomY + 'px';
+            
+            timer = setInterval(function() {
+                currentTime--;
+                timeDisplay.textContent = 'time left for click: ' + currentTime;
+                
+                if (currentTime <= 0) {
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        box.addEventListener('click', function() {
+            if (!isPlaying) return;
+            score++;
+            scoreDisplay.textContent = 'score: ' + score;
+            spawnBox();
+        });
+
+        function endGame() {
+            clearInterval(timer);
+            isPlaying = false;
+            box.style.display = 'none';
+            setTimeout(function() {
+                alert("Game over! Your score is " + score + ", congratulations!\nPlease, reload the page to start a new game.");
+            }, 10);
+        }
+    </script>
+</body>
+</html>
