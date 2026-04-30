@@ -1,1 +1,20 @@
-
+[
+  {
+    "id": 1,
+    "name": "Книги",
+    "shortname": "books",
+    "notes": "Найкраща література для навчання та відпочинку."
+  },
+  {
+    "id": 2,
+    "name": "Електроніка",
+    "shortname": "electronics",
+    "notes": "Сучасні гаджети та девайси. Lorem ipsum dolor."
+  },
+  {
+    "id": 3,
+    "name": "Одяг",
+    "shortname": "clothing",
+    "notes": "Модний та стильний одяг на кожен день."
+  }
+]
