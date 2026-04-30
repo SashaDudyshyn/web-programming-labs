@@ -1,1 +1,9 @@
-
+{
+  "categoryName": "Стильний Одяг",
+  "items": [
+    {"id": 301, "name": "Худі базове", "shortname": "hoodie", "description": "Тепле худі для прохолодних вечорів.", "price": 1200},
+    {"id": 302, "name": "Джинси Slim", "shortname": "jeans", "description": "Класичні сині джинси. Lorem ipsum dolor.", "price": 950},
+    {"id": 303, "name": "Кепка літня", "shortname": "cap", "description": "Захист від сонця.", "price": 300},
+    {"id": 304, "name": "Кросівки Run", "shortname": "sneakers", "description": "Легкі кросівки для щоденних прогулянок.", "price": 2100}
+  ]
+}
