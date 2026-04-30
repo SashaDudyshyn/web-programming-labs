@@ -1,1 +1,9 @@
-
+{
+  "categoryName": "Книги та Література",
+  "items": [
+    {"id": 101, "name": "JavaScript для профі", "shortname": "js_book", "description": "Поглиблене вивчення мови JS, асинхронності та Ajax.", "price": 450},
+    {"id": 102, "name": "Основи алгоритмів", "shortname": "algo_book", "description": "Теорія та практика сортування, пошуку та графів.", "price": 380},
+    {"id": 103, "name": "Веб-дизайн", "shortname": "design_book", "description": "Lorem ipsum dolor sit amet, consectetur adipiscing.", "price": 500},
+    {"id": 104, "name": "Патерни ООП", "shortname": "oop_book", "description": "Архітектура програмного забезпечення.", "price": 600}
+  ]
+}
