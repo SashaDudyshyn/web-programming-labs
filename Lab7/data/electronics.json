@@ -1,1 +1,9 @@
-
+{
+  "categoryName": "Електроніка та Техніка",
+  "items": [
+    {"id": 201, "name": "Ноутбук DevPro", "shortname": "laptop", "description": "Ідеальний ноутбук для написання коду.", "price": 35000},
+    {"id": 202, "name": "Смартфон X10", "shortname": "phone", "description": "Флагманський смартфон з чудовою камерою.", "price": 20000},
+    {"id": 203, "name": "Навушники Bass", "shortname": "headphones", "description": "Бездротові навушники з активним шумозаглушенням.", "price": 4500},
+    {"id": 204, "name": "Смарт-годинник", "shortname": "watch", "description": "Контролюй свій час та здоров'я.", "price": 3200}
+  ]
+}
