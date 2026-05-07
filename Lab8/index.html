@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна 8 - Візуальні ефекти</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Мій Магазин 🌸</div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#">🏠 Додому</a></li>
+                <li><a href="#">🎀 Каталог</a></li>
+                <li><a href="#">💖 Про нас</a></li>
+                <li><a href="#">📞 Контакти</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="carousel-section">
+            <div class="carousel-wrapper">
+                <div class="carousel-track" id="carousel-track">
+                    <img src="https://placehold.co/800x400/fce4ec/d81b60?text=Slide+1" alt="Слайд 1">
+                    <img src="https://placehold.co/800x400/f8bbd0/880e4f?text=Slide+2" alt="Слайд 2">
+                    <img src="https://placehold.co/800x400/f48fb1/4a148c?text=Slide+3" alt="Слайд 3">
+                    <img src="https://placehold.co/800x400/f06292/ffffff?text=Slide+4" alt="Слайд 4">
+                </div>
+                <button class="carousel-btn prev" id="btn-prev">❮</button>
+                <button class="carousel-btn next" id="btn-next">❯</button>
+                <div class="carousel-indicators" id="indicators"></div>
+            </div>
+        </section>
+
+        <section class="device-specific-section show-on-large">
+            <h2 class="section-title">Тільки для великих екранів (Large ≥ 768px)</h2>
+            <div class="img-grid">
+                <img src="https://placehold.co/300x200/e1bee7/4a148c?text=Large+1" alt="L1">
+                <img src="https://placehold.co/300x200/ce93d8/4a148c?text=Large+2" alt="L2">
+                <img src="https://placehold.co/300x200/ba68c8/ffffff?text=Large+3" alt="L3">
+            </div>
+        </section>
+
+        <section class="device-specific-section show-on-medium">
+            <h2 class="section-title">Тільки для мобільних (Medium < 768px)</h2>
+            <div class="img-grid">
+                <img src="https://placehold.co/200x200/b2ebf2/006064?text=Mobile+1" alt="M1">
+                <img src="https://placehold.co/200x200/80deea/006064?text=Mobile+2" alt="M2">
+            </div>
+        </section>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
